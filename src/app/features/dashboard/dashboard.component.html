@@ -1,1 +1,6 @@
 <p>dashboard works!</p>
+
+  <h2>Simple Prices</h2>
+  <div *ngFor="let coin of simplePrices | keyvalue">
+    <p>{{ coin.key }}: ${{ coin.value.usd }}</p>
+  </div>

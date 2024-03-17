@@ -1,7 +1,8 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { AppComponent } from "./app.component";
-import { HomeComponent } from "./home/home.component";
+import { HomeComponent } from "./features/home/home.component";
 import { Routes, RouterModule } from "@angular/router";
+import { AppRoutingModule } from './app.routes';
 
 
 // Define project routes
@@ -21,5 +22,6 @@ const routes: Routes = [
         bootstrap: [AppComponent] 
       };
     }
+
   }
 

@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+// import { CryptoPrices } from '../../shared/models/crypto-prices';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CryptoService {
-  private baseUrl = 'http://localhost:3000'
+  private baseUrl = 'http://localhost:3000/cryptos'
 
   constructor(private http: HttpClient) {}
 
-  getSimplePrice(ids: string[] | string, vsCurrencies: string[] | string): Observable<any> {
-    const idsParam = Array.isArray(ids) ? ids.join(',') : ids;
-    const currenciesParam = Array.isArray(vsCurrencies) ? vsCurrencies.join(',') : vsCurrencies;
-    return this.http.get(`${this.baseUrl}/cryptos/simple_price?ids=${idsParam}&vs_currencies=${currenciesParam}`);
+  getSimplePrice(ids: string[], vsCurrencies: string[]): Observable<any> {
+    const idsParam = ids.join(',');
+    const vsCurrenciesParam = vsCurrencies.join(',');
+    return this.http.get(`${this.baseUrl}/simple_price?ids=${idsParam}&vs_currencies=${vsCurrenciesParam}`);
+  }
+
+  getMarkets(ids: string, vsCurrency: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/coins/markets?ids=${ids}&vs_currency=${vsCurrency}`);
+  }
+
+  getHistoricalData(id: string, date: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/coins/${id}/history?date=${date}`);
   }
 
 
