@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
+import { CryptoService } from './core/services/crypto.service';
 
 
 @Component({
@@ -10,6 +11,20 @@ import { HomeComponent } from './features/home/home.component';
     styleUrl: './app.component.css',
     imports: [RouterOutlet, HomeComponent,]
 })
-export class AppComponent {
-  title = 'track-my-crypto-client';
+export class AppComponent implements OnInit {
+
+  data: any;
+
+  constructor(private cryptoService: CryptoService) {}
+
+
+  ngOnInit() {
+    this.cryptoService.getSimplePrice(['bitcoin', 'ethereum'], 'usd').subscribe({
+      next: (data) => {
+        this.data = data;
+        console.log(data);
+      },
+      error: (error) => console.error(error)
+    });
+  }
 }
