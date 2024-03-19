@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+//import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 // import { CryptoPrices } from '../../shared/models/crypto-prices';
@@ -7,9 +8,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CryptoService {
-  private baseUrl = 'http://localhost:3000/cryptos'
 
-  constructor(private http: HttpClient) {}
+  private baseUrl = 'http://localhost:3000/cryptos'
+  private _http: HttpClient | null = null;
+
+  constructor(private injector: Injector) { }
+  
+  private get http(): HttpClient {
+    if (!this._http) {
+      this._http = this.injector.get(HttpClient);
+    }
+    return this._http;
+  }
+ 
 
   getSimplePrice(ids: string[], vsCurrencies: string[]): Observable<any> {
     const idsParam = ids.join(',');
