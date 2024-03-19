@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class CryptoService {
 
-  private baseUrl = 'http://localhost:3000/cryptos'
+  // May need to change the URL for each method
+  private baseUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd'
   private _http: HttpClient | null = null;
 
   constructor(private injector: Injector) { }
