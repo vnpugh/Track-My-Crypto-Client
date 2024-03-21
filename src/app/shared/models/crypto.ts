@@ -1,5 +1,5 @@
 export interface Crypto {
-    crypto_name: string;
+    image: string;
     symbol: string;
     current_price: number;
     market_cap: bigint;

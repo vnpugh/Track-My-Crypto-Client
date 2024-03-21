@@ -7,9 +7,12 @@
     <table mat-table [dataSource]="dataSource">
   
       <!-- Crypto Column -->
-      <ng-container matColumnDef="crypto_name">
+      <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef> Crypto </th>
-        <td mat-cell *matCellDef="let element"> {{element.crypto_name}} </td>
+        <!-- <td mat-cell *matCellDef="let element"> {{element.image}} </td> -->
+        <td mat-cell *matCellDef="let element"> 
+          <img [src]="element.image" alt="Crypto image" style="width:30px; height:auto;">
+        </td>
       </ng-container>
   
       <!-- Symbol/Image Column -->
