@@ -2,7 +2,7 @@ import { CryptoService } from '../../core/services/crypto.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Crypto } from '../../shared/models/crypto';
 
@@ -18,13 +18,23 @@ import { Crypto } from '../../shared/models/crypto';
 })
 
 export class DashboardComponent implements OnInit {
-                                //'crypto_name'
-  displayedColumns: string[] = ['image', 'symbol', 'current_price', 'market_cap', 'volume_24h', 'price_change_percentage_24h'];
+                                //'crypto_name' //'image', 'symbol'
+  displayedColumns: string[] = ['crypto', 'current_price', 'market_cap', 'total_volume', 'price_change_percentage_24h'];
   dataSource = new MatTableDataSource<Crypto>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
    
   cryptoData: Crypto[] = [];
+
+   onPageChange(event: PageEvent) {
+    // table pagination
+  
+    const startIndex = event.pageIndex * event.pageSize;
+    const endIndex = startIndex + event.pageSize;
+    const partOfData = this.cryptoData.slice(startIndex, endIndex);
+
+    this.dataSource = new MatTableDataSource<Crypto>(partOfData);
+  }
 
   constructor(private cryptoService: CryptoService) {}
 
@@ -37,6 +47,8 @@ export class DashboardComponent implements OnInit {
     'polygon', 'terra', 'decentraland', 'the graph', 'synthetix'];
 
     const vsCurrency = 'usd';
+
+    this.dataSource.paginator = this.paginator;
 
     this.cryptoService.getMarkets(ids, vsCurrency).subscribe({
       next: (data) => {
